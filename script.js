@@ -1,11 +1,6 @@
-var counter = window.localStorage.getItem('counter')
+var counter = window.localStorage.getItem('counter') || 0
 
-if (counter === null) {
-  counter = 0
-}
-
-counter = parseInt(counter)
-counter = counter + 1
+counter = parseInt(counter) + 1
 window.localStorage.setItem('counter', counter)
 
 var counterElement = document.getElementById('counter')
@@ -13,6 +8,7 @@ var counterElement = document.getElementById('counter')
 counterElement.textContent = counter
 
 var nightTheme = function () {
+  window.localStorage.setItem('theme', 'night-theme')
   document.body.setAttribute('class', 'night-theme')
   document.getElementById('container').setAttribute('class', 'night-theme-container')
   document.getElementById('header').setAttribute('class', 'night-theme-header')
@@ -21,6 +17,7 @@ var nightTheme = function () {
 }
 
 var dayTheme = function () {
+  window.localStorage.setItem('theme', 'day-theme')
   document.body.setAttribute('class', 'day-theme')
   document.getElementById('container').setAttribute('class', 'container')
   document.getElementById('header').setAttribute('class', 'day-theme-header')
@@ -28,12 +25,7 @@ var dayTheme = function () {
   document.getElementById('theme-button').setAttribute('class', 'common-Button')
 }
 
-var theme = window.localStorage.getItem('theme')
-if (theme === null) {
-  theme = 'day-theme'
-}
-document.body.setAttribute('class', theme)
-window.localStorage.setItem('theme', theme)
+var theme = window.localStorage.getItem('theme') || 'day-theme'
 
 if (theme === 'day-theme') {
   dayTheme()
@@ -47,14 +39,10 @@ var change = function () {
   var currentTheme = window.localStorage.getItem('theme')
 
   if (currentTheme === 'day-theme') {
-    window.localStorage.setItem('theme', 'night-theme')
     nightTheme()
   } else {
-    window.localStorage.setItem('theme', 'day-theme')
     dayTheme()
   }
 }
 
-themeButton.addEventListener('click', function () {
-  change()
-})
+themeButton.addEventListener('click', change)
